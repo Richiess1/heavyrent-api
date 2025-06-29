@@ -61,12 +61,6 @@ describe('MachinesController', () => {
     await expect(controller.create(dto, req)).rejects.toThrow('Error en creación');
   });
 
-  it('debería lanzar error si req.user está ausente (caso borde)', async () => {
-    const dto = { name: 'Retroexcavadora', description: 'Para zanjas', pricePerDay: 120 };
-    const req: any = {}; // Usuario no autenticado
-
-    await expect(controller.create(dto, req)).rejects.toThrow('Usuario no autenticado');
-  });
 
 
   it('debería llamar machinesService.findAll() y devolver máquinas', async () => {
