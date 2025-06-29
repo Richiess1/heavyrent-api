@@ -18,11 +18,15 @@ export class RentalsController {
     create(@Body() dto: CreateRentalDto, @Req() req) {
         return this.rentalsService.create(dto, req.user);
     }
-zz
+    
     @Get()
     @UseGuards(AuthGuard('jwt'))
     findByUser(@Req() req) {
+        if (!req.user || !req.user.userId) {
+            throw new Error('Usuario no autenticado');
+        }
         return this.rentalsService.findByUser(req.user.userId);
     }
+
 
 }

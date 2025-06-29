@@ -16,11 +16,15 @@ export class MachinesController {
     @Post()
     @UseGuards(AuthGuard('jwt'))
     create(@Body() dto: CreateMachineDto, @Req() req) {
+        if (!req.user) {
+            throw new Error('Usuario no autenticado');
+        }
         return this.machinesService.create(dto, req.user);
     }
 
+
     @Get()
-    findAll(){
+    findAll() {
         return this.machinesService.findAll();
     }
 
