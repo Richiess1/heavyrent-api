@@ -8,25 +8,27 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiBearerAuth()
 @Controller('rentals')
 export class RentalsController {
+  constructor(
+    private readonly rentalsService: RentalsService
+  ) {}
 
-    constructor(
-        private readonly rentalsService: RentalsService
-    ) { }
-
-    @Post()
-    @UseGuards(AuthGuard('jwt'))
-    create(@Body() dto: CreateRentalDto, @Req() req) {
-        return this.rentalsService.create(dto, req.user);
-    }
-    
-    @Get()
-    @UseGuards(AuthGuard('jwt'))
-    findByUser(@Req() req) {
-        if (!req.user || !req.user.userId) {
-            throw new Error('Usuario no autenticado');
-        }
-        return this.rentalsService.findByUser(req.user.userId);
+  @Post()
+  @UseGuards(AuthGuard('jwt'))
+  create(@Body() dto: CreateRentalDto, @Req() req) {
+    if (!req.user || !req.user.userId) {
+      throw new Error('Usuario no autenticado');
     }
 
+    return this.rentalsService.create(dto, req.user);
+  }
 
+  @Get()
+  @UseGuards(AuthGuard('jwt'))
+  findByUser(@Req() req) {
+    if (!req.user || !req.user.userId) {
+      throw new Error('Usuario no autenticado');
+    }
+
+    return this.rentalsService.findByUser(req.user.userId);
+  }
 }

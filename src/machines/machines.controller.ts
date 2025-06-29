@@ -8,7 +8,6 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiBearerAuth()
 @Controller('machines')
 export class MachinesController {
-
     constructor(
         private readonly machinesService: MachinesService
     ) { }
@@ -16,16 +15,16 @@ export class MachinesController {
     @Post()
     @UseGuards(AuthGuard('jwt'))
     create(@Body() dto: CreateMachineDto, @Req() req) {
-        if (!req.user) {
+        // ✅ Validación robusta de usuario
+        if (!req.user || !req.user.userId) {
             throw new Error('Usuario no autenticado');
         }
+
         return this.machinesService.create(dto, req.user);
     }
-
 
     @Get()
     findAll() {
         return this.machinesService.findAll();
     }
-
 }

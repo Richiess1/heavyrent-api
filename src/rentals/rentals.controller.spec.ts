@@ -78,10 +78,11 @@ describe('RentalsController', () => {
     await expect(controller.findByUser(req)).rejects.toThrow('No se pudo obtener alquileres');
   });
 
-  it('debería no llamar al servicio si req.user está indefinido (caso edge)', async () => {
-    const req = { };
+  it('debería lanzar error si req.user está indefinido (caso edge)', async () => {
+    const req: any = {}; // sin .user
 
-    await expect(controller.findByUser(req)).rejects.toThrow();
-    expect(service.findByUser).not.toHaveBeenCalled();
+    await expect(controller.findByUser(req)).rejects.toThrow('Usuario no autenticado');
   });
+
+
 });
