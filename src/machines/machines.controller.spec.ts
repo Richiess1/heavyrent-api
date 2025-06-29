@@ -61,12 +61,9 @@ describe('MachinesController', () => {
     await expect(controller.create(dto, req)).rejects.toThrow('Error en creación');
   });
 
-  // Este caso prueba el comportamiento cuando req.user está ausente, 
-  // lo cual es importante para asegurar que el controlador maneje correctamente 
-  // solicitudes no autenticadas y no permita la creación de máquinas sin usuario.
   it('debería lanzar error si req.user está ausente (caso borde)', async () => {
     const dto = { name: 'Retroexcavadora', description: 'Para zanjas', pricePerDay: 120 };
-    const req: any = {}; // simula que no hay usuario
+    const req: any = {}; // Usuario no autenticado
 
     await expect(controller.create(dto, req)).rejects.toThrow('Usuario no autenticado');
   });
